@@ -2,6 +2,7 @@
 import os
 #Importing csv module
 import csv
+#Importing pandas?
 
 #Obtaining current working directory
 cwd = os.getcwd()
@@ -11,7 +12,7 @@ cwd = os.getcwd()
 csvpath = os.path.join(cwd, 'Resources', 'election_data.csv')
 #print(csvpath)
 
-
+totalCount = 0
 
 
 with open(csvpath, encoding='UTF8') as csvfile:
@@ -19,4 +20,5 @@ with open(csvpath, encoding='UTF8') as csvfile:
     #print(csvreader)
     
     for row in csvreader:
-        print(row)
+        #print(row)
+        totalCount += 1
