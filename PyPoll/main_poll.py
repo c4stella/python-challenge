@@ -62,7 +62,6 @@ totalVotes = len(voteList)
 
 #Structuring results
 vresult = f'''
-```text
 Election Results
 -------------------------
 Total Votes: {totalVotes}
@@ -73,7 +72,6 @@ Total Votes: {totalVotes}
 -------------------------
 Winner: {winner}
 -------------------------
-```
 '''
 
 #Export output as its own txt file

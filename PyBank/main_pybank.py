@@ -17,8 +17,9 @@ respath = os.path.join(cwd, 'Analysis', 'results.txt')
 #Default value for variables at start of program
 moneyTotal = 0
 monthTotal = 0
-greatestInc = 1
-greatestDec = -1
+values = []
+months = []
+diffValues = []
 
 #Reading the csv file
 with open(csvpath, encoding='UTF8') as csvfile:
@@ -42,43 +43,40 @@ with open(csvpath, encoding='UTF8') as csvfile:
         #count the total months
         monthTotal += 1
         
-        #track the largest positive number as greatest increase, and the month it happened
-        if moneyChange > greatestInc:
-            greatestInc = moneyChange
-            gIncDate = timeChange
+        #log all movements in value into list for further iteration
+        values.append(moneyChange)
         
-        #track the largest negative number as greatest decrease, and the month it happened
-        if moneyChange < greatestDec:
-            greatestDec = moneyChange
-            gDecDate = timeChange
+        #log all months into list for further iteration
+        months.append(timeChange)
+    
+    #Looping through all values, making sure to not include the first month
+    for i in range(len(values) - 1):
         
+        #log the differences in total value between each month to list
+        diffValues.append(values[i] - values[i - 1])
+        greatestInc = max(diffValues)
+        greatestDec = min(diffValues)
 
+    #Looping through list of months
+    for m in range(len(months)):
+        
+        #Match the index of the greatest change to its respective index in months
+        gIncDate = months[diffValues.index(greatestInc)]
+        gDecDate = months[diffValues.index(greatestDec)]
+        
 
 #find average of changes
-avgChange = moneyTotal / monthTotal
-
-#For testing
-#print(moneyTotal)
-#print(monthTotal)
-#print(avgChange)
-#print(greatestInc)
-#print(greatestDec)
+avgChange = round(sum(diffValues) / (monthTotal - 1), 2)
 
 #Final output
 result = f'''
-````text
 Financial Analysis
-Total: {moneyTotal}
+Total: ${moneyTotal}
 Total Months: {monthTotal}
-Average Change: {avgChange}
-Greatest Increase in Profit: {greatestInc} on {gIncDate}
-Greatest Decrease in Profit: {greatestDec} on {gDecDate}
+Average Change: ${avgChange}
+Greatest Increase in Profit: ${greatestInc} on {gIncDate}
+Greatest Decrease in Profit: ${greatestDec} on {gDecDate}
 '''
 
 #Export output as its own txt file
 print(result, file=open(respath, 'w'))
-
-#Alternate way to generate txt file
-#r = open(respath, mode='w')
-#r.write("Analysis complete")
-#r.close
